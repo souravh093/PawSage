@@ -50,6 +50,10 @@ const userSchema = new Schema<TUser, UserModel>(
     passwordChangedAt: {
       type: Date,
     },
+    premiumMember: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],

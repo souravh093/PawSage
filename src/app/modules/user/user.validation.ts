@@ -36,6 +36,7 @@ const updateUserValidationSchema = z.object({
     bio: z.string().optional(),
     gender: z.string().optional(),
     isDeleted: z.boolean().optional(),
+    premiumMember: z.boolean().optional(),
     passwordChangedAt: z.date().optional(),
     status: z.enum(['in-progress', 'blocked']),
     role: z.string({ required_error: 'Role is required' }).optional(),
