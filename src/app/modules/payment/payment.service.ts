@@ -1,24 +1,19 @@
 import config from '../../config';
-import { Booking } from '../booking/booking.model';
+import { User } from '../user/user.model';
 import { verifyPayment } from './payment.utils';
 
 const confirmationService = async (
   transactionId: string,
   status: string,
-  paidStatus: string,
+  email: string,
 ) => {
   const verifyResponse = await verifyPayment(transactionId);
 
   if (verifyResponse && verifyResponse?.pay_status === 'Successful') {
-    await Booking.findOneAndUpdate(
-      { transactionId },
+    await User.findOneAndUpdate(
+      { email },
       {
-        paidStatus:
-          paidStatus === 'full-paid'
-            ? 'full-paid'
-            : paidStatus === 'initial-paid'
-              ? 'initial-paid'
-              : 'no-paid',
+        $set: { premiumMember: true },
       },
       { new: true },
     );
@@ -72,7 +67,7 @@ const confirmationService = async (
           <h1 class="${status === 'success' ? 'success' : 'cancel'}">
             Payment ${status === 'success' ? 'Successful' : 'Canceled'}
           </h1>
-          <a href="${config.client_url}/dashboard/my-rental-paid" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
+          <a href="${config.client_url}/dashboard" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
             ${status === 'success' ? 'Go to Dashboard' : 'Retry Payment'}
           </a>
         </div>

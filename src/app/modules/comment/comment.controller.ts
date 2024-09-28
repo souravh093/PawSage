@@ -31,8 +31,6 @@ const updateComment = catchAsync(async (req, res) => {
     req.user,
   );
 
-  console.log(result)
-
   sendResponse(res, {
     statusCode: 200,
     success: true,
