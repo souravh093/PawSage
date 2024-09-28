@@ -5,6 +5,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { BookingRoutes } from '../modules/booking/booking.route';
 import { paymentRoutes } from '../modules/payment/payment.route';
 import { CouponRoutes } from '../modules/coupon/coupon.route';
+import { FollowersRoutes } from '../modules/followers/followers.route';
 
 const router = Router();
 
@@ -34,6 +35,10 @@ const moduleRoutes = [
     path: '/coupons',
     route: CouponRoutes,
   },
+  {
+    path: '/followers',	
+    route: FollowersRoutes,
+  }
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
