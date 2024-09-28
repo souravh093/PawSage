@@ -13,7 +13,17 @@ router.post(
   FollowersController.following,
 );
 
-router.get('/:userId', auth('admin', 'user'), FollowersController.getFollowers);
+router.get(
+  '/:userId',
+  auth('admin', 'user'),
+  FollowersController.getFollowedUser,
+);
+
+router.get(
+  '/:followerId',
+  auth('admin', 'user'),
+  FollowersController.getFollowers,
+);
 
 router.delete(
   '/',

@@ -21,8 +21,14 @@ const followingIntoDB = async (payload: TFollowers) => {
   return result;
 };
 
-const getFollowersFromDB = async (userId: string) => {
+const getFollowedUserFromDB = async (userId: string) => {
   const result = await Followers.find({ userId }).populate('followerId');
+
+  return result;
+};
+
+const getFollowersFromDB = async (followerId: string) => {
+  const result = await Followers.find({ followerId }).populate('userId');
 
   return result;
 };
@@ -35,6 +41,7 @@ const unFollowIntoDB = async (payload: TFollowers) => {
 
 export const FollowersServices = {
   followingIntoDB,
+  getFollowedUserFromDB,
   getFollowersFromDB,
   unFollowIntoDB,
 };
