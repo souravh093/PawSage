@@ -54,6 +54,9 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    transactionId: {
+      type: String,
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],

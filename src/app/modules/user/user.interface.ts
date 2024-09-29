@@ -16,6 +16,7 @@ export type TUser = {
   bio: string;
   gender?: string;
   premiumMember?: boolean;
+  transactionId?: string;
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
   role: TRole;

@@ -35,6 +35,7 @@ const updateUserValidationSchema = z.object({
     profilePicture: z.string().url().optional(),
     bio: z.string().optional(),
     gender: z.string().optional(),
+    transactionId: z.string().optional(),
     isDeleted: z.boolean().optional(),
     premiumMember: z.boolean().optional(),
     passwordChangedAt: z.date().optional(),

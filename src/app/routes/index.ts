@@ -1,10 +1,7 @@
 import { Router } from 'express';
 import { UserRoutes } from '../modules/user/user.route';
-import { BikeRoutes } from '../modules/bike/bike.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
-import { BookingRoutes } from '../modules/booking/booking.route';
 import { paymentRoutes } from '../modules/payment/payment.route';
-import { CouponRoutes } from '../modules/coupon/coupon.route';
 import { FollowersRoutes } from '../modules/followers/followers.route';
 import { PostRoutes } from '../modules/post/post.route';
 import { CommentRoutes } from '../modules/comment/comment.route';
@@ -22,20 +19,8 @@ const moduleRoutes = [
     route: UserRoutes,
   },
   {
-    path: '/bikes',
-    route: BikeRoutes,
-  },
-  {
-    path: '/rentals',
-    route: BookingRoutes,
-  },
-  {
     path: '/payments',
     route: paymentRoutes,
-  },
-  {
-    path: '/coupons',
-    route: CouponRoutes,
   },
   {
     path: '/followers',

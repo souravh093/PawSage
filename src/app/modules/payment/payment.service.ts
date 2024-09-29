@@ -1,6 +1,10 @@
+import { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import { User } from '../user/user.model';
-import { verifyPayment } from './payment.utils';
+import { initiatePayment, verifyPayment } from './payment.utils';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
+import { TPaymentInfo } from '../../types/payment.interface';
 
 const confirmationService = async (
   transactionId: string,
@@ -78,6 +82,54 @@ const confirmationService = async (
   return successTemplate;
 };
 
+const paymentForMonetization = async (
+  loggerUser: JwtPayload,
+  amount: string,
+) => {
+  const isExistUser = await User.findOne({ email: loggerUser.email });
+
+  if (!isExistUser) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  if (isExistUser.premiumMember) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You are already a premium member',
+    );
+  }
+
+  const transactionId = `TXN-${Date.now()}${Math.floor(10000 + Math.random()) * 90000}`;
+
+  const paymentInfo: TPaymentInfo = {
+    transactionId,
+    amount,
+    customerName: isExistUser.name,
+    customerEmail: isExistUser.email,
+    customerPhone: isExistUser.phone,
+    customerAddress: isExistUser.address,
+  };
+
+  const paymentSession = await initiatePayment(paymentInfo);
+
+  const result = await User.findOneAndUpdate(
+    {
+      email: loggerUser.email,
+    },
+    {
+      $set: {
+        transactionId,
+      },
+    },
+  );
+
+  return {
+    result,
+    paymentSession,
+  };
+};
+
 export const PaymentServices = {
   confirmationService,
+  paymentForMonetization,
 };
