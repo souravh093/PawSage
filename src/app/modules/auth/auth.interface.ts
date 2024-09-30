@@ -1,4 +1,5 @@
 import { USER_ROLE } from '../user/user.constant';
+import { TRole } from '../user/user.interface';
 
 // login user type
 export type TLoginUser = {
@@ -9,7 +10,11 @@ export type TLoginUser = {
 // generate token types
 export type TGenerateToken = {
   email: string;
-  role: string;
+  role: TRole | undefined;
+  id?: string | undefined;
+  name?: string;
+  profilePicture?: string;
+  phone?: string;
 };
 
 // logged in user types
