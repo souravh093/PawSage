@@ -19,7 +19,7 @@ export type TUser = {
   transactionId?: string;
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
-  role: TRole;
+  role?: TRole;
 };
 
 // make the statics method interface for user validation

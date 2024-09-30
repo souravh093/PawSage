@@ -37,11 +37,11 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     profilePicture: {
       type: String,
-      required: true,
     },
     status: {
       type: String,
       enum: ['in-progress', 'blocked'],
+      default: 'in-progress',
     },
     isDeleted: {
       type: Boolean,
@@ -60,7 +60,7 @@ const userSchema = new Schema<TUser, UserModel>(
     role: {
       type: String,
       enum: ['admin', 'user'],
-      required: true,
+      default: 'user',
     },
   },
   {

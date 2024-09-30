@@ -16,7 +16,7 @@ const createUserValidationSchema = z.object({
       .url()
       .optional(),
     gender: z.string().optional(),
-    role: z.enum(['admin', 'user']),
+    role: z.enum(['admin', 'user']).optional(),
   }),
 });
 
