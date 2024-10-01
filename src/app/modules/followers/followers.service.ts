@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TFollowers } from './followers.interface';
@@ -21,6 +22,15 @@ const followingIntoDB = async (payload: TFollowers) => {
   return result;
 };
 
+const isFollowingIntoDB = async (query: Record<string, any>) => {
+  const result = await Followers.findOne({
+    userId: query.userId,
+    followerId: query.followerId,
+  });
+
+  return result;
+};
+
 const getFollowedUserFromDB = async (userId: string) => {
   const result = await Followers.find({ userId }).populate('followerId');
 
@@ -33,8 +43,10 @@ const getFollowersFromDB = async (followerId: string) => {
   return result;
 };
 
-const unFollowIntoDB = async (payload: TFollowers) => {
-  const result = await Followers.deleteOne(payload);
+const unFollowIntoDB = async (query: Record<string, any>) => {
+  const result = await Followers.deleteOne({
+    followerId: query.id,
+  });
 
   return result;
 };
@@ -44,4 +56,5 @@ export const FollowersServices = {
   getFollowedUserFromDB,
   getFollowersFromDB,
   unFollowIntoDB,
+  isFollowingIntoDB,
 };

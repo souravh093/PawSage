@@ -13,6 +13,8 @@ router.post(
   FollowersController.following,
 );
 
+router.get('/checkFollow', FollowersController.isFollowing);
+
 router.get(
   '/:userId',
   auth('admin', 'user'),
@@ -28,7 +30,6 @@ router.get(
 router.delete(
   '/',
   auth('admin', 'user'),
-  validateRequest(FollowersValidations.followersValidationSchema),
   FollowersController.unFollow,
 );
 

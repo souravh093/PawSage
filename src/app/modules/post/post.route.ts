@@ -8,7 +8,7 @@ const router = Router();
 
 router.post(
   '/',
-  // auth('admin', 'user'),
+  auth('admin', 'user'),
   validateRequest(PostValidation.createPostValidationSchema),
   PostController.createPost,
 );
