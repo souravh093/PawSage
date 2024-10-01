@@ -10,23 +10,30 @@ const upVoteIntoDB = async (payload: TVote) => {
     userId: payload.userId,
   });
 
-  if (isVotedPost) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'You have already voted');
-  }
-
   const findPost = await Post.findById(payload.postId);
 
   if (!findPost) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Post not found');
+    throw new AppError(httpStatus.OK, 'Post not found');
   }
 
-  if (findPost) {
+  if (isVotedPost) {
+    if (isVotedPost.type === 'upvote') {
+      throw new AppError(httpStatus.OK, 'You have already upvoted');
+    } else {
+      await Vote.findOneAndDelete({
+        postId: payload.postId,
+        userId: payload.userId,
+      });
+
+      await Post.findByIdAndUpdate(payload.postId, { $inc: { likes: 1 } });
+      await new Vote({ ...payload, type: 'upvote' }).save();
+    }
+  } else {
+    await new Vote({ ...payload, type: 'upvote' }).save();
     await Post.findByIdAndUpdate(payload.postId, { $inc: { likes: 1 } });
   }
 
-  const result = await Vote.create(payload);
-
-  return result;
+  return { message: 'Upvoted successfully' };
 };
 
 const downVoteIntoDB = async (payload: TVote) => {
@@ -38,27 +45,27 @@ const downVoteIntoDB = async (payload: TVote) => {
   const findPost = await Post.findById(payload.postId);
 
   if (!findPost) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Post not found');
+    throw new AppError(httpStatus.OK, 'Post not found');
   }
 
   if (isVotedPost) {
-    await Vote.findOneAndDelete({
-      postId: payload.postId,
-      userId: payload.userId,
-    });
+    if (isVotedPost.type === 'downvote') {
+      throw new AppError(httpStatus.OK, 'You have already downvoted');
+    } else {
+      await Vote.findOneAndDelete({
+        postId: payload.postId,
+        userId: payload.userId,
+      });
 
+      await Post.findByIdAndUpdate(payload.postId, { $inc: { likes: -1 } });
+      await new Vote({ ...payload, type: 'downvote' }).save();
+    }
+  } else {
+    await new Vote({ ...payload, type: 'downvote' }).save();
     await Post.findByIdAndUpdate(payload.postId, { $inc: { likes: -1 } });
   }
 
-  if(!isVotedPost) {
-    await Vote.create(payload);
-  }
-
-  const result = await Post.findByIdAndUpdate(payload.postId, {
-    $inc: { likes: -1 },
-  });
-
-  return result;    
+  return { message: 'Downvoted successfully' };
 };
 
 export const VoteServices = {

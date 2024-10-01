@@ -13,6 +13,11 @@ const voteSchema = new Schema<TVote>(
       ref: 'User',
       required: true,
     },
+    type: {
+      type: String,
+      enum: ['upvote', 'downvote'],
+      required: true,
+    },
   },
   { timestamps: true },
 );
