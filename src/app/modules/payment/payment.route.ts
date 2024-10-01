@@ -14,4 +14,6 @@ router.post(
   PaymentController.paymentForMonetization,
 );
 
+router.get('/info', auth('admin', 'user'), PaymentController.getPaymentInfo);
+
 export const paymentRoutes = router;

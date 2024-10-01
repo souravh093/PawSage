@@ -71,7 +71,7 @@ const confirmationService = async (
           <h1 class="${status === 'success' ? 'success' : 'cancel'}">
             Payment ${status === 'success' ? 'Successful' : 'Canceled'}
           </h1>
-          <a href="${config.client_url}/dashboard" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
+          <a href="${config.client_url}" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
             ${status === 'success' ? 'Go to Dashboard' : 'Retry Payment'}
           </a>
         </div>
@@ -89,14 +89,11 @@ const paymentForMonetization = async (
   const isExistUser = await User.findOne({ email: loggerUser.email });
 
   if (!isExistUser) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+    throw new AppError(httpStatus.OK, 'User not found');
   }
 
   if (isExistUser.premiumMember) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'You are already a premium member',
-    );
+    throw new AppError(httpStatus.OK, 'You are already a premium member');
   }
 
   const transactionId = `TXN-${Date.now()}${Math.floor(10000 + Math.random()) * 90000}`;
@@ -123,13 +120,36 @@ const paymentForMonetization = async (
     },
   );
 
+  if (isExistUser) {
+    await User.findOneAndUpdate(
+      { email: loggerUser.email },
+      {
+        $set: { premiumMember: true },
+      },
+    );
+  }
+
   return {
     result,
     paymentSession,
   };
 };
 
+const getPaymentInfoUser = async (loggerUser: JwtPayload) => {
+  const payment = await User.findOne({
+    email: loggerUser.email,
+    premiumMember: true,
+  });
+
+  if (!payment) {
+    throw new AppError(httpStatus.OK, 'User not found');
+  }
+
+  return payment;
+};
+
 export const PaymentServices = {
   confirmationService,
   paymentForMonetization,
+  getPaymentInfoUser
 };

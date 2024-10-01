@@ -44,6 +44,7 @@ const loginUser = async (payload: TLoginUser) => {
     name: user.name,
     profilePicture: user.profilePicture,
     phone: user.phone,
+    premiumMember: user.premiumMember,
   };
 
   // generate token

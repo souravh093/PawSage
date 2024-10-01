@@ -25,7 +25,19 @@ const paymentForMonetization = catchAsync(async (req, res) => {
   });
 });
 
+const getPaymentInfo = catchAsync(async (req, res) => {
+  const result = await PaymentServices.getPaymentInfoUser(req.user);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Payment info fetched successfully',
+    data: result,
+  });
+});
+
 export const PaymentController = {
   confirmationController,
   paymentForMonetization,
+  getPaymentInfo,
 };
