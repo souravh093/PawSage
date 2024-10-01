@@ -5,6 +5,7 @@ import { paymentRoutes } from '../modules/payment/payment.route';
 import { FollowersRoutes } from '../modules/followers/followers.route';
 import { PostRoutes } from '../modules/post/post.route';
 import { CommentRoutes } from '../modules/comment/comment.route';
+import { VoteRoutes } from '../modules/vote/vote.route';
 
 const router = Router();
 
@@ -34,6 +35,10 @@ const moduleRoutes = [
     path: '/comments',
     route: CommentRoutes,
   },
+  {
+    path: "/votes",
+    route: VoteRoutes,
+  }
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
