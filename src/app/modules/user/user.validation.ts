@@ -39,7 +39,7 @@ const updateUserValidationSchema = z.object({
     isDeleted: z.boolean().optional(),
     premiumMember: z.boolean().optional(),
     passwordChangedAt: z.date().optional(),
-    status: z.enum(['in-progress', 'blocked']),
+    status: z.enum(['in-progress', 'blocked']).optional(),
     role: z.string({ required_error: 'Role is required' }).optional(),
   }),
 });

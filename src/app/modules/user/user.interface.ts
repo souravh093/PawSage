@@ -17,7 +17,7 @@ export type TUser = {
   gender?: string;
   premiumMember?: boolean;
   transactionId?: string;
-  status: 'in-progress' | 'blocked';
+  status?: 'in-progress' | 'blocked';
   isDeleted: boolean;
   role?: TRole;
 };
