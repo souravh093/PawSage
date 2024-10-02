@@ -16,9 +16,15 @@ router.post(
 router.get('/checkFollow', FollowersController.isFollowing);
 
 router.get(
-  '/:userId',
+  '/me',
   auth('admin', 'user'),
   FollowersController.getFollowedUser,
+);
+
+router.get(
+  '/count',
+  auth('admin', 'user'),
+  FollowersController.followerAndFollowingCount,
 );
 
 router.get(
