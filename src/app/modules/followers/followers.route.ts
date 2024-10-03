@@ -15,11 +15,7 @@ router.post(
 
 router.get('/checkFollow', FollowersController.isFollowing);
 
-router.get(
-  '/me',
-  auth('admin', 'user'),
-  FollowersController.getFollowedUser,
-);
+router.get('/me', auth('admin', 'user'), FollowersController.getFollowedUser);
 
 router.get(
   '/count',
@@ -33,10 +29,6 @@ router.get(
   FollowersController.getFollowers,
 );
 
-router.delete(
-  '/',
-  auth('admin', 'user'),
-  FollowersController.unFollow,
-);
+router.delete('/', auth('admin', 'user'), FollowersController.unFollow);
 
 export const FollowersRoutes = router;

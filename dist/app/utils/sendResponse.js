@@ -10,7 +10,10 @@ const sendResponse = (res, data) => {
         paymentSession: data.paymentSession,
     };
     if (data.token) {
-        responseData.token = data.token;
+        responseData.token = {
+            accessToken: data.token.accessToken,
+            refreshToken: data.token.refreshToken,
+        };
     }
     res.status(data.statusCode).json(responseData);
 };

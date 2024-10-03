@@ -9,4 +9,3 @@ const paymentValidationSchema = z.object({
 export const PaymentValidation = {
   paymentValidationSchema,
 };
-

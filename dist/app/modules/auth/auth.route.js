@@ -8,6 +8,7 @@ const express_1 = require("express");
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
 const user_validation_1 = require("../user/user.validation");
 const auth_controller_1 = require("./auth.controller");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
 const router = (0, express_1.Router)();
 // assign auth routes
 // signup user
@@ -15,4 +16,7 @@ router.post('/signup', (0, validateRequest_1.default)(user_validation_1.UserVali
 // login user
 router.post('/login', (0, validateRequest_1.default)(user_validation_1.UserValidation.loginUserValidationSchema), auth_controller_1.AuthController.loginUser);
 router.post('/refresh-token', (0, validateRequest_1.default)(user_validation_1.UserValidation.refreshTokenValidationSchema), auth_controller_1.AuthController.refreshToken);
+router.post('/forget-password', auth_controller_1.AuthController.forgetPassword);
+router.post('/reset-password', auth_controller_1.AuthController.resetPassword);
+router.post('/change-password', (0, auth_1.default)('admin', 'user'), auth_controller_1.AuthController.changePassword);
 exports.AuthRoutes = router;

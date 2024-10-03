@@ -21,7 +21,7 @@ const initiatePayment = (paymentData) => __awaiter(void 0, void 0, void 0, funct
     const res = yield axios_1.default.post(config_1.default.payment_url, {
         store_id: config_1.default.store_id,
         tran_id: paymentData.transactionId,
-        success_url: `${config_1.default.url}/api/payments/confirmation?transactionId=${paymentData.transactionId}&status=success&paidStatus=${paymentData.paidStatus}`,
+        success_url: `${config_1.default.url}/api/v1/payments/confirmation?transactionId=${paymentData.transactionId}&status=success&email=${paymentData.customerEmail}`,
         fail_url: `${config_1.default.url}/api/payments/confirmation?status=failed`,
         cancel_url: config_1.default.client_url,
         amount: paymentData.amount,

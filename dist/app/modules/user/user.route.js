@@ -13,7 +13,7 @@ const router = (0, express_1.Router)();
 // assign user routes
 // get profile for user
 router.get('/me', (0, auth_1.default)('admin', 'user'), user_controller_1.UserController.getUserProfile);
-router.get('/all', (0, auth_1.default)('admin'), user_controller_1.UserController.getAllUsers);
+router.get('/all', user_controller_1.UserController.getAllUsers);
 // update profile for user
 router.put('/me', (0, auth_1.default)('admin', 'user'), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUserValidationSchema), user_controller_1.UserController.updateUserProfile);
 router.put('/role/:id', (0, auth_1.default)('admin'), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateRoleValidationSchema), user_controller_1.UserController.updateRole);

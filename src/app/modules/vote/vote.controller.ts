@@ -4,7 +4,7 @@ import { VoteServices } from './vote.service';
 
 const upVoted = catchAsync(async (req, res) => {
   const result = await VoteServices.upVoteIntoDB(req.body);
-  
+
   sendResponse(res, {
     statusCode: 200,
     success: true,

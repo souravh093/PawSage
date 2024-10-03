@@ -14,17 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentServices = void 0;
 const config_1 = __importDefault(require("../../config"));
-const booking_model_1 = require("../booking/booking.model");
+const user_model_1 = require("../user/user.model");
 const payment_utils_1 = require("./payment.utils");
-const confirmationService = (transactionId, status, paidStatus) => __awaiter(void 0, void 0, void 0, function* () {
+const AppError_1 = __importDefault(require("../../errors/AppError"));
+const http_status_1 = __importDefault(require("http-status"));
+const confirmationService = (transactionId, status, email) => __awaiter(void 0, void 0, void 0, function* () {
     const verifyResponse = yield (0, payment_utils_1.verifyPayment)(transactionId);
     if (verifyResponse && (verifyResponse === null || verifyResponse === void 0 ? void 0 : verifyResponse.pay_status) === 'Successful') {
-        yield booking_model_1.Booking.findOneAndUpdate({ transactionId }, {
-            paidStatus: paidStatus === 'full-paid'
-                ? 'full-paid'
-                : paidStatus === 'initial-paid'
-                    ? 'initial-paid'
-                    : 'no-paid',
+        yield user_model_1.User.findOneAndUpdate({ email }, {
+            $set: { premiumMember: true },
         }, { new: true });
     }
     const successTemplate = `
@@ -75,7 +73,7 @@ const confirmationService = (transactionId, status, paidStatus) => __awaiter(voi
           <h1 class="${status === 'success' ? 'success' : 'cancel'}">
             Payment ${status === 'success' ? 'Successful' : 'Canceled'}
           </h1>
-          <a href="${config_1.default.client_url}/dashboard/my-rental-paid" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
+          <a href="${config_1.default.client_url}" class="redirect-link ${status === 'success' ? 'success-link' : 'cancel-link'}">
             ${status === 'success' ? 'Go to Dashboard' : 'Retry Payment'}
           </a>
         </div>
@@ -84,6 +82,53 @@ const confirmationService = (transactionId, status, paidStatus) => __awaiter(voi
   `;
     return successTemplate;
 });
+const paymentForMonetization = (loggerUser, amount) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExistUser = yield user_model_1.User.findOne({ email: loggerUser.email });
+    if (!isExistUser) {
+        throw new AppError_1.default(http_status_1.default.OK, 'User not found');
+    }
+    if (isExistUser.premiumMember) {
+        throw new AppError_1.default(http_status_1.default.OK, 'You are already a premium member');
+    }
+    const transactionId = `TXN-${Date.now()}${Math.floor(10000 + Math.random()) * 90000}`;
+    const paymentInfo = {
+        transactionId,
+        amount,
+        customerName: isExistUser.name,
+        customerEmail: isExistUser.email,
+        customerPhone: isExistUser.phone,
+        customerAddress: isExistUser.address,
+    };
+    const paymentSession = yield (0, payment_utils_1.initiatePayment)(paymentInfo);
+    const result = yield user_model_1.User.findOneAndUpdate({
+        email: loggerUser.email,
+    }, {
+        $set: {
+            transactionId,
+        },
+    });
+    if (isExistUser) {
+        yield user_model_1.User.findOneAndUpdate({ email: loggerUser.email }, {
+            $set: { premiumMember: true },
+        });
+    }
+    return {
+        result,
+        paymentSession,
+    };
+});
+const getPaymentInfoUser = (loggerUser) => __awaiter(void 0, void 0, void 0, function* () {
+    const payment = yield user_model_1.User.findOne({
+        email: loggerUser.email,
+        premiumMember: true,
+    });
+    if (!payment) {
+        throw new AppError_1.default(http_status_1.default.OK, 'User not found');
+    }
+    return payment;
+});
 exports.PaymentServices = {
     confirmationService,
+    paymentForMonetization,
+    getPaymentInfoUser
 };

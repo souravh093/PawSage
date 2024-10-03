@@ -1,4 +1,4 @@
-import {  Response } from 'express';
+import { Response } from 'express';
 import httpStatus from 'http-status';
 
 const noDataFound = <T>(res: Response, data: T[]) => {
@@ -8,9 +8,9 @@ const noDataFound = <T>(res: Response, data: T[]) => {
       message: 'No Data Found',
       data: [],
     });
-  }else {
-    return false
+  } else {
+    return false;
   }
 };
 
-export default noDataFound; 
+export default noDataFound;

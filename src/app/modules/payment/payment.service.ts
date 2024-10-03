@@ -151,5 +151,5 @@ const getPaymentInfoUser = async (loggerUser: JwtPayload) => {
 export const PaymentServices = {
   confirmationService,
   paymentForMonetization,
-  getPaymentInfoUser
+  getPaymentInfoUser,
 };

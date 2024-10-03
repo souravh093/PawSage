@@ -12,35 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PaymentController = void 0;
-const payment_service_1 = require("./payment.service");
+exports.VoteController = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const confirmationController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield payment_service_1.PaymentServices.confirmationService(req.query.transactionId, req.query.status, req.query.email);
-    res.send(result);
-});
-const paymentForMonetization = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { result, paymentSession } = yield payment_service_1.PaymentServices.paymentForMonetization(req.user, req.body.amount);
+const vote_service_1 = require("./vote.service");
+const upVoted = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield vote_service_1.VoteServices.upVoteIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
-        message: 'Payment session initiated successfully',
-        paymentSession,
+        message: 'Post upvoted successfully',
         data: result,
     });
 }));
-const getPaymentInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield payment_service_1.PaymentServices.getPaymentInfoUser(req.user);
+const downVoted = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield vote_service_1.VoteServices.downVoteIntoDB(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
-        message: 'Payment info fetched successfully',
+        message: 'Post downvoted successfully',
         data: result,
     });
 }));
-exports.PaymentController = {
-    confirmationController,
-    paymentForMonetization,
-    getPaymentInfo,
+exports.VoteController = {
+    upVoted,
+    downVoted,
 };

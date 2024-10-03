@@ -58,7 +58,9 @@ const deleteUserFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
     if (!findUser) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
-    const result = yield user_model_1.User.findByIdAndDelete(id);
+    const result = yield user_model_1.User.findByIdAndUpdate(id, {
+        isDeleted: true,
+    });
     return result;
 });
 const updateRoleFromDB = (id, role) => __awaiter(void 0, void 0, void 0, function* () {

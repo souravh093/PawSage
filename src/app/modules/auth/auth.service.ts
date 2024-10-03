@@ -87,7 +87,6 @@ const refreshToken = async (token: string) => {
     phone: user.phone,
   };
 
-
   const accessToken = generateToken(
     jwtPayload,
     config.jwt_access_secret as string,
@@ -117,7 +116,6 @@ const forgetPassword = async (email: string) => {
   const jwtPayload = {
     email: isExistUser.email,
     role: isExistUser.role,
-    
   };
 
   const resetToken = generateToken(

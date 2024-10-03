@@ -10,7 +10,7 @@ const router = Router();
 
 // get profile for user
 router.get('/me', auth('admin', 'user'), UserController.getUserProfile);
-router.get('/all',  UserController.getAllUsers);
+router.get('/all', UserController.getAllUsers);
 
 // update profile for user
 router.put(

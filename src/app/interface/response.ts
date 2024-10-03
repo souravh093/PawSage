@@ -13,7 +13,7 @@ export type TPaymentSession = {
 type TToken = {
   accessToken: string;
   refreshToken: string;
-}
+};
 
 export type TResponse<T> = {
   statusCode: number;

@@ -40,9 +40,39 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    role: {
+    gender: {
         type: String,
         required: true,
+    },
+    bio: {
+        type: String,
+    },
+    profilePicture: {
+        type: String,
+    },
+    status: {
+        type: String,
+        enum: ['in-progress', 'blocked'],
+        default: 'in-progress',
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    passwordChangedAt: {
+        type: Date,
+    },
+    premiumMember: {
+        type: Boolean,
+        default: false,
+    },
+    transactionId: {
+        type: String,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user',
     },
 }, {
     timestamps: true,
@@ -70,6 +100,22 @@ userSchema.statics.isPasswordMatched = function (plainTextPassword, hashPassword
 userSchema.statics.isUserExistsByEmail = function (email) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield exports.User.findOne({ email }).select('+password');
+    });
+};
+userSchema.statics.isUserDeleted = function (email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield exports.User.findOne({ email });
+        if ((user === null || user === void 0 ? void 0 : user.isDeleted) === true) {
+            return true;
+        }
+    });
+};
+userSchema.statics.isUserStatus = function (email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield exports.User.findOne({ email });
+        if ((user === null || user === void 0 ? void 0 : user.status) === 'blocked') {
+            return true;
+        }
     });
 };
 exports.User = (0, mongoose_1.model)('User', userSchema);
