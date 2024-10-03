@@ -65,11 +65,21 @@ const getFollowedUserFromDB = async (loggedUser: JwtPayload) => {
   return allPosts;
 };
 
-const getFollowersFromDB = async (followerId: string) => {
-  const result = await Followers.find({ followerId }).populate('userId');
+const getFollowersFromDB = async (loggedUser: JwtPayload) => {
+  const result = await Followers.find({ userId: loggedUser.id }).populate(
+    'followerId',
+  );
 
   return result;
 };
+
+const followedUserFromDB = async (loggedUser: JwtPayload) => {
+  const result = await Followers.find({ followerId: loggedUser.id }).populate(
+    'userId',
+  );
+
+  return result;
+}
 
 const unFollowIntoDB = async (query: Record<string, any>) => {
   const result = await Followers.deleteOne({
@@ -86,4 +96,5 @@ export const FollowersServices = {
   unFollowIntoDB,
   isFollowingIntoDB,
   getFollowerAndFollowingCount,
+  followedUserFromDB,
 };

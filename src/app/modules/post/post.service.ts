@@ -10,6 +10,7 @@ const createPostIntoDB = async (payload: TPost) => {
   return result;
 };
 
+
 const getPostsFromDB = async (query: Record<string, unknown>) => {
   const postQuery = new QueryBuilder(Post.find().populate('userId'), query)
     .search(['title', 'content'])
@@ -42,6 +43,7 @@ const updatePostIntoDB = async (payload: Partial<TPost>, id: string) => {
 
   return result;
 };
+
 
 const deletePostFromDB = async (id: string) => {
   const result = await Post.findByIdAndDelete(id);

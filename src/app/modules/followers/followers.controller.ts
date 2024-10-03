@@ -25,7 +25,7 @@ const getFollowedUser = catchAsync(async (req, res) => {
 });
 
 const getFollowers = catchAsync(async (req, res) => {
-  const result = await FollowersServices.getFollowedUserFromDB(req.user);
+  const result = await FollowersServices.getFollowersFromDB(req.user);
 
   sendResponse(res, {
     statusCode: 200,
@@ -42,6 +42,17 @@ const followerAndFollowingCount = catchAsync(async (req, res) => {
     statusCode: 200,
     success: true,
     message: 'Get follower and following count',
+    data: result,
+  });
+});
+
+const followedUser = catchAsync(async (req, res) => {
+  const result = await FollowersServices.followedUserFromDB(req.user);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Get followed user',
     data: result,
   });
 });
@@ -75,4 +86,5 @@ export const FollowersController = {
   unFollow,
   isFollowing,
   followerAndFollowingCount,
+  followedUser,
 };
