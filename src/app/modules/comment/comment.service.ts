@@ -38,9 +38,12 @@ const updateComment = async (
       _id: id,
       userId: loggedUser.id,
     },
-    { $set: payload },
+    { $set: {
+      comment: payload.comment,
+    } },
     { new: true },
   );
+
 
   return result;
 };

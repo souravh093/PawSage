@@ -124,7 +124,7 @@ const forgetPassword = async (email: string) => {
     '1h',
   );
 
-  const resetURLLink = `${config.client_url}?email=${isExistUser.email}&token=${resetToken}`;
+  const resetURLLink = `${config.client_url}/reset?email=${isExistUser.email}&token=${resetToken}`;
 
   sendEmail(resetURLLink, email);
 };

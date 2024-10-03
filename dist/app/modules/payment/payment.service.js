@@ -130,5 +130,5 @@ const getPaymentInfoUser = (loggerUser) => __awaiter(void 0, void 0, void 0, fun
 exports.PaymentServices = {
     confirmationService,
     paymentForMonetization,
-    getPaymentInfoUser
+    getPaymentInfoUser,
 };

@@ -36,9 +36,9 @@ const moduleRoutes = [
         route: comment_route_1.CommentRoutes,
     },
     {
-        path: "/votes",
+        path: '/votes',
         route: vote_route_1.VoteRoutes,
-    }
+    },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;

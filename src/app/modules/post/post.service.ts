@@ -28,7 +28,7 @@ const getPostsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSinglePostFromDB = async (id: string) => {
-  const findPost = await Post.findById(id);
+  const findPost = await Post.findById(id).populate('userId');
 
   if (!findPost) {
     throw new AppError(httpStatus.NOT_FOUND, 'Post not found');
