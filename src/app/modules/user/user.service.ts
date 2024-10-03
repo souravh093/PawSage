@@ -65,7 +65,9 @@ const deleteUserFromDB = async (id: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  const result = await User.findByIdAndDelete(id);
+  const result = await User.findByIdAndUpdate(id, {
+    isDeleted: true,
+  });
 
   return result;
 };
