@@ -12,9 +12,7 @@ const createPostIntoDB = async (payload: TPost) => {
 };
 
 const getMyPostsFromDB = async (loggedUser: JwtPayload) => {
-  const posts = await Post.find({ userId: loggedUser.id }).populate(
-    'userId',
-  );
+  const posts = await Post.find({ userId: loggedUser.id }).populate('userId');
 
   return posts;
 };
@@ -31,10 +29,7 @@ const getPostsFromDB = async (query: Record<string, unknown>) => {
   const meta = await postQuery.countTotal();
 
   const postIds = posts.map((post) => post._id);
-  const comments = await Comment.find({ postId: { $in: postIds } }).populate(
-    'userId',
-    'name',
-  );
+  const comments = await Comment.find({ postId: { $in: postIds } }).populate("userId");
 
   const postsWithComments = posts.map((post) => ({
     ...post,
@@ -82,5 +77,5 @@ export const PostServices = {
   getSinglePostFromDB,
   updatePostIntoDB,
   deletePostFromDB,
-  getMyPostsFromDB
+  getMyPostsFromDB,
 };
