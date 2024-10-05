@@ -35,7 +35,9 @@ const updateComment = (payload, id, loggedUser) => __awaiter(void 0, void 0, voi
     const result = yield comment_model_1.Comment.findOneAndUpdate({
         _id: id,
         userId: loggedUser.id,
-    }, { $set: payload }, { new: true });
+    }, { $set: {
+            comment: payload.comment,
+        } }, { new: true });
     return result;
 });
 const deleteComment = (id, loggedUser) => __awaiter(void 0, void 0, void 0, function* () {

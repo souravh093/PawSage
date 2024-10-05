@@ -61,8 +61,12 @@ const getFollowedUserFromDB = (loggedUser) => __awaiter(void 0, void 0, void 0, 
     }
     return allPosts;
 });
-const getFollowersFromDB = (followerId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield followers_modal_1.Followers.find({ followerId }).populate('userId');
+const getFollowersFromDB = (loggedUser) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield followers_modal_1.Followers.find({ userId: loggedUser.id }).populate('followerId');
+    return result;
+});
+const followedUserFromDB = (loggedUser) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield followers_modal_1.Followers.find({ followerId: loggedUser.id }).populate('userId');
     return result;
 });
 const unFollowIntoDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
@@ -78,4 +82,5 @@ exports.FollowersServices = {
     unFollowIntoDB,
     isFollowingIntoDB,
     getFollowerAndFollowingCount,
+    followedUserFromDB,
 };

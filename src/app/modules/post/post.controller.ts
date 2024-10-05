@@ -13,6 +13,17 @@ const createPost = catchAsync(async (req, res) => {
   });
 });
 
+const getMyPosts = catchAsync(async (req, res) => {
+  const result = await PostServices.getMyPostsFromDB(req.user);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'My posts fetched successfully',
+    data: result,
+  });
+});
+
 const getPosts = catchAsync(async (req, res) => {
   const result = await PostServices.getPostsFromDB(req.query);
 
@@ -63,4 +74,5 @@ export const PostController = {
   getSinglePost,
   updatePost,
   deletePost,
+  getMyPosts
 };

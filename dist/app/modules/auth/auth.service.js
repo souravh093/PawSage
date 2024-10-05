@@ -94,7 +94,7 @@ const forgetPassword = (email) => __awaiter(void 0, void 0, void 0, function* ()
         role: isExistUser.role,
     };
     const resetToken = (0, auth_utils_1.generateToken)(jwtPayload, config_1.default.jwt_access_secret, '1h');
-    const resetURLLink = `${config_1.default.client_url}?email=${isExistUser.email}&token=${resetToken}`;
+    const resetURLLink = `${config_1.default.client_url}/reset?email=${isExistUser.email}&token=${resetToken}`;
     (0, sendEmail_1.sendEmail)(resetURLLink, email);
 });
 const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {

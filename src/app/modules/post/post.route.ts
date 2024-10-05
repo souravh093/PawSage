@@ -13,6 +13,8 @@ router.post(
   PostController.createPost,
 );
 
+router.get('/me', auth('admin', 'user'), PostController.getMyPosts);
+
 router.get('/', PostController.getPosts);
 
 router.get('/:id', PostController.getSinglePost);

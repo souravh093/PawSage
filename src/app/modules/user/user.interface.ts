@@ -10,7 +10,7 @@ export type TUser = {
   password: string;
   phone: string;
   address: string;
-  profilePicture: string;
+  profilePicture?: string;
   passwordChangedAt: Date;
   _id?: string;
   bio: string;

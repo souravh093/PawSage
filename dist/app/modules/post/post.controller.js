@@ -25,6 +25,15 @@ const createPost = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getMyPosts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield post_service_1.PostServices.getMyPostsFromDB(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'My posts fetched successfully',
+        data: result,
+    });
+}));
 const getPosts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield post_service_1.PostServices.getPostsFromDB(req.query);
     (0, sendResponse_1.default)(res, {
@@ -67,4 +76,5 @@ exports.PostController = {
     getSinglePost,
     updatePost,
     deletePost,
+    getMyPosts
 };

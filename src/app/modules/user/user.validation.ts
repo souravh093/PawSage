@@ -13,7 +13,6 @@ const createUserValidationSchema = z.object({
     address: z.string({ required_error: 'Address is required' }),
     profilePicture: z
       .string({ required_error: 'Profile Picture is required' })
-      .url()
       .optional(),
     gender: z.string().optional(),
     role: z.enum(['admin', 'user']).optional(),
@@ -32,7 +31,7 @@ const updateUserValidationSchema = z.object({
       .optional(),
     phone: z.string({ required_error: 'Phone number is required' }).optional(),
     address: z.string({ required_error: 'Address is required' }).optional(),
-    profilePicture: z.string().url().optional(),
+    profilePicture: z.string().optional(),
     bio: z.string().optional(),
     gender: z.string().optional(),
     transactionId: z.string().optional(),

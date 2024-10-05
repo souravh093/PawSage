@@ -17,9 +17,14 @@ const http_status_1 = __importDefault(require("http-status"));
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const post_modal_1 = require("./post.modal");
+const comment_model_1 = require("../comment/comment.model");
 const createPostIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield post_modal_1.Post.create(payload);
     return result;
+});
+const getMyPostsFromDB = (loggedUser) => __awaiter(void 0, void 0, void 0, function* () {
+    const posts = yield post_modal_1.Post.find({ userId: loggedUser.id }).populate('userId');
+    return posts;
 });
 const getPostsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const postQuery = new QueryBuilder_1.default(post_modal_1.Post.find().populate('userId'), query)
@@ -28,19 +33,24 @@ const getPostsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* ()
         .sort()
         .paginate()
         .fields();
-    const result = yield postQuery.modelQuery;
+    const posts = yield postQuery.modelQuery.lean();
     const meta = yield postQuery.countTotal();
+    const postIds = posts.map((post) => post._id);
+    const comments = yield comment_model_1.Comment.find({ postId: { $in: postIds } }).populate('userId', 'name');
+    const postsWithComments = posts.map((post) => (Object.assign(Object.assign({}, post), { comments: comments.filter((comment) => comment.postId.equals(post._id)) })));
     return {
         meta,
-        result,
+        result: postsWithComments,
     };
 });
 const getSinglePostFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const findPost = yield post_modal_1.Post.findById(id);
+    const findPost = yield post_modal_1.Post.findById(id).populate('userId');
     if (!findPost) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Post not found');
     }
-    return findPost;
+    const comments = yield comment_model_1.Comment.find({ postId: id }).populate('userId');
+    const postWithComments = Object.assign(Object.assign({}, findPost.toObject()), { comments });
+    return postWithComments;
 });
 const updatePostIntoDB = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield post_modal_1.Post.findByIdAndUpdate(id, payload, { new: true });
@@ -56,4 +66,5 @@ exports.PostServices = {
     getSinglePostFromDB,
     updatePostIntoDB,
     deletePostFromDB,
+    getMyPostsFromDB
 };

@@ -11,6 +11,7 @@ const validateRequest_1 = __importDefault(require("../../middlewares/validateReq
 const post_validation_1 = require("./post.validation");
 const router = (0, express_1.Router)();
 router.post('/', (0, auth_1.default)('admin', 'user'), (0, validateRequest_1.default)(post_validation_1.PostValidation.createPostValidationSchema), post_controller_1.PostController.createPost);
+router.get('/me', (0, auth_1.default)('admin', 'user'), post_controller_1.PostController.getMyPosts);
 router.get('/', post_controller_1.PostController.getPosts);
 router.get('/:id', post_controller_1.PostController.getSinglePost);
 router.put('/:id', (0, auth_1.default)('admin', 'user'), (0, validateRequest_1.default)(post_validation_1.PostValidation.updatePostValidationSchema), post_controller_1.PostController.updatePost);

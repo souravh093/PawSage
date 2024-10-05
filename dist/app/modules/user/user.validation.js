@@ -15,7 +15,6 @@ const createUserValidationSchema = zod_1.z.object({
         address: zod_1.z.string({ required_error: 'Address is required' }),
         profilePicture: zod_1.z
             .string({ required_error: 'Profile Picture is required' })
-            .url()
             .optional(),
         gender: zod_1.z.string().optional(),
         role: zod_1.z.enum(['admin', 'user']).optional(),
@@ -33,7 +32,7 @@ const updateUserValidationSchema = zod_1.z.object({
             .optional(),
         phone: zod_1.z.string({ required_error: 'Phone number is required' }).optional(),
         address: zod_1.z.string({ required_error: 'Address is required' }).optional(),
-        profilePicture: zod_1.z.string().url().optional(),
+        profilePicture: zod_1.z.string().optional(),
         bio: zod_1.z.string().optional(),
         gender: zod_1.z.string().optional(),
         transactionId: zod_1.z.string().optional(),

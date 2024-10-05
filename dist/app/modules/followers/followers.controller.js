@@ -35,7 +35,7 @@ const getFollowedUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
     });
 }));
 const getFollowers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield followers_service_1.FollowersServices.getFollowedUserFromDB(req.user);
+    const result = yield followers_service_1.FollowersServices.getFollowersFromDB(req.user);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
@@ -49,6 +49,15 @@ const followerAndFollowingCount = (0, catchAsync_1.default)((req, res) => __awai
         statusCode: 200,
         success: true,
         message: 'Get follower and following count',
+        data: result,
+    });
+}));
+const followedUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield followers_service_1.FollowersServices.followedUserFromDB(req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Get followed user',
         data: result,
     });
 }));
@@ -77,4 +86,5 @@ exports.FollowersController = {
     unFollow,
     isFollowing,
     followerAndFollowingCount,
+    followedUser,
 };
