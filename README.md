@@ -1,16 +1,16 @@
 # Project Overview
 
-# Project Name: Bike rental service for tourists or locals.
+# Project Name: PAWSAGE.
 
 # Live URL:
 
 ```bash
-https://bike-booker.vercel.app
+https://paysage-server.vercel.app/
 ```
 
 # Project description
 
-This is bike rental backend project. This project we use major great technologies like Typescript, mongoose, zod, express.js etc. This project using we can create user with role like admin and user. Bike rental project using any tourist rent bike and when tourist back admin dynamically know how much amount red this bike this tourist.
+PAWSAGE is a pet tips and stories sharing website. There we can create pet tips and stories post and manipulate that as well. This website and premium features like create premium post and normal user don't access this posts. There are two user ADMIN and USER. This two role have different access this website. This website have authentication and authorization system. This website like social media like there can like, comment, share post ass well. Follow other user as well.
 
 # Technologies Used
 
@@ -27,10 +27,10 @@ This is bike rental backend project. This project we use major great technologie
 
 * SignUp and Login Admin
 * SignUp and Login User
-* Create Bike for client
+* Create Post Admin and User
 * Authentication
 * Authorization
-* Rent Bikes
+* Payment system
 * Secure Password
 
 
