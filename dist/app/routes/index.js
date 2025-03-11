@@ -8,8 +8,8 @@ const followers_route_1 = require("../modules/followers/followers.route");
 const post_route_1 = require("../modules/post/post.route");
 const comment_route_1 = require("../modules/comment/comment.route");
 const vote_route_1 = require("../modules/vote/vote.route");
+const friend_route_1 = require("../modules/friend/friend.route");
 const router = (0, express_1.Router)();
-// parent route assign
 const moduleRoutes = [
     {
         path: '/auth',
@@ -38,6 +38,10 @@ const moduleRoutes = [
     {
         path: '/votes',
         route: vote_route_1.VoteRoutes,
+    },
+    {
+        path: '/friends',
+        route: friend_route_1.FriendRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

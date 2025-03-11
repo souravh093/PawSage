@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FriendRoutes = void 0;
+const express_1 = require("express");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const friend_validation_1 = require("./friend.validation");
+const friend_controller_1 = require("./friend.controller");
+const router = (0, express_1.Router)();
+router.post('/request', (0, auth_1.default)('user', 'admin'), (0, validateRequest_1.default)(friend_validation_1.FriendValidations.friendValidationSchema), friend_controller_1.FriendController.sendFriendRequest);
+router.delete('/cancel', (0, auth_1.default)('user', 'admin'), (0, validateRequest_1.default)(friend_validation_1.FriendValidations.friendValidationSchema), friend_controller_1.FriendController.cancelFriendRequest);
+router.post('/accept', (0, auth_1.default)('user', 'admin'), (0, validateRequest_1.default)(friend_validation_1.FriendValidations.friendValidationSchema), friend_controller_1.FriendController.acceptedFriend);
+router.get('/request/:userId', (0, auth_1.default)('user', 'admin'), friend_controller_1.FriendController.getFriendRequest);
+router.get('/status', (0, auth_1.default)('user', 'admin'), friend_controller_1.FriendController.checkFriendRequestStatus);
+router.get('/list/:userId', (0, auth_1.default)('user', 'admin'), friend_controller_1.FriendController.getFriendList);
+router.delete('/', (0, auth_1.default)('user', 'admin'), (0, validateRequest_1.default)(friend_validation_1.FriendValidations.friendValidationSchema), friend_controller_1.FriendController.rejectedFriend);
+exports.FriendRoutes = router;

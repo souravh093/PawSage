@@ -36,7 +36,7 @@ const getPostsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* ()
     const posts = yield postQuery.modelQuery.lean();
     const meta = yield postQuery.countTotal();
     const postIds = posts.map((post) => post._id);
-    const comments = yield comment_model_1.Comment.find({ postId: { $in: postIds } }).populate('userId', 'name');
+    const comments = yield comment_model_1.Comment.find({ postId: { $in: postIds } }).populate("userId");
     const postsWithComments = posts.map((post) => (Object.assign(Object.assign({}, post), { comments: comments.filter((comment) => comment.postId.equals(post._id)) })));
     return {
         meta,
@@ -66,5 +66,5 @@ exports.PostServices = {
     getSinglePostFromDB,
     updatePostIntoDB,
     deletePostFromDB,
-    getMyPostsFromDB
+    getMyPostsFromDB,
 };

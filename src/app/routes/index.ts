@@ -6,10 +6,11 @@ import { FollowersRoutes } from '../modules/followers/followers.route';
 import { PostRoutes } from '../modules/post/post.route';
 import { CommentRoutes } from '../modules/comment/comment.route';
 import { VoteRoutes } from '../modules/vote/vote.route';
+import { FriendRoutes } from '../modules/friend/friend.route';
 
 const router = Router();
 
-// parent route assign
+
 const moduleRoutes = [
   {
     path: '/auth',
@@ -38,6 +39,10 @@ const moduleRoutes = [
   {
     path: '/votes',
     route: VoteRoutes,
+  },
+  {
+    path: '/friends',
+    route: FriendRoutes,
   },
 ];
 
